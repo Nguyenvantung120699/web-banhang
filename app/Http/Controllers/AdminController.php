@@ -29,7 +29,11 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('adminView.index');
+        $order = Order::count();
+        $user = User::count();
+        $orderss = Order::count('grandTotal');
+        $orders = Order::where('status',0)->get();
+        return view('adminView.index',['orderss'=>$orderss,'orders'=>$orders,'user'=>$user,'order'=>$order]);
     }
 
     // brand function
@@ -76,37 +80,33 @@ class AdminController extends Controller
         $brands = Brand::find($id);
         return view('adminView.brands.edit',['brands'=>$brands]);
     }
-    public function brandUpdate($id,Request $request){
-        $brands = Brand::find($id);
+
+    public function brandUpdate($id, Request $request)
+    {
         $request->validate([
             "brandsName"=> "required|string|unique:brands,brandsName,".$id,
             "history" =>"string",
             "isActive" =>"required|Integer",
         ]);
-        try{
-            $logo = null;
-            $ext_allow = ["png","jpg","jpeg","gif","svg"];
-            if($request->hasFile("logo")){
-                $file = $request->file("logo");
-                $file_name = time()."_".$file->getClientOriginalName();
-                $ext = $file->getClientOriginalExtension();
-                if(in_array($ext,$ext_allow)){
-                    $file->move("upload/brand/",$file_name);
-                    $logo = "upload/brand/".$file_name;
-                }       
+        $brands = Brand::find($id);
+        $brands->brandsName = $request->get('brandsName');
+        try {
+            if ($request->hasFile('logo')) {
+                $logo = $request->file('logo');
+                $name = time()."_".$logo->getClientOriginalName();
+                $name = $name . "." . $logo->getClientOriginalExtension();
+                $logo->move("upload/brand/",$name);
+
+                $brands->logo = "upload/brand/".$name;
             }
-            $brands->update([
-                "brandsName"=> $request->get("brandsName"),
-                "logo" => $logo,
-                "history"=> $request->get("history"),
-                "isActive"=> $request->get("isActive")
-            ]);
-        }catch(\Exception $e){
-            return redirect()->back();
+        $brands->history = $request->get('history');
+        $brands->isActive = $request->get('isActive');
+        $brands->save();
+        } catch (\Exception $e) {
+            throw $e;
         }
         return redirect()->to("admin/brandIndex");
     }
-
 
     public function brandDestroy($id){
         $brands = Brand::find($id);
@@ -119,6 +119,10 @@ class AdminController extends Controller
         return redirect()->to("admin/brandIndex");
     }
 
+    public function brandDetail($id){
+        $brands = Brand::find($id);
+        return view('adminView.brands.detail',['brands'=>$brands]);
+    }
     // categories function
 
     public function categoriesIndex(){
@@ -131,7 +135,8 @@ class AdminController extends Controller
     }
 
     public function categoriesStore(Request $request){
-        $request->validate([
+
+       $request->validate([
             "categoriesName"=> "required|string|unique:categories",
             "description" =>"string",
             "isActive" =>"required|Integer",
@@ -165,33 +170,28 @@ class AdminController extends Controller
         return view("adminView.categories.edit",['categories'=>$categories]);
     }
     public function categoryUpdate($id,Request $request){
-        $categories = Category::find($id);
+
         $request->validate([
             "categoriesName"=> "required|string|unique:categories,categoriesName,".$id,
             "description" =>"string",
-            "isActive" => "required|Integer"
-
+            "isActive" =>"required|Integer",
         ]);
+        $categories = Category::find($id);
+        $categories->categoriesName = $request->get('categoriesName');
         try {
-            $logo = null;
-            $ext_allow = ["png","jpg","jpeg","gif","svg"];
-            if($request->hasFile("logo")){
-                $file = $request->file("logo");
-                $file_name = time()."_".$file->getClientOriginalName();
-                $ext = $file->getClientOriginalExtension();
-                if(in_array($ext,$ext_allow)){
-                    $file->move("upload/categories/",$file_name);
-                    $logo = "upload/categories/".$file_name;
-                } 
-            }      
-            $categories->update([
-                "categoriesName"=> $request->get("categoriesName"),
-                "logo"=> $logo,
-                "description"=> $request->get("description"),
-                "isActive"=> $request->get("isActive")
-            ]);
-        }catch (\Exception $e){
-            return redirect()->back();
+            if ($request->hasFile('logo')) {
+                $logo = $request->file('logo');
+                $name = time()."_".$logo->getClientOriginalName();
+                $name = $name . "." . $logo->getClientOriginalExtension();
+                $logo->move("upload/categories/",$name);
+
+                $categories->logo = "upload/categories/".$name;
+            }
+        $categories->description = $request->get('description');
+        $categories->isActive = $request->get('isActive');
+        $categories->save();
+        } catch (\Exception $e) {
+            throw $e;
         }
         return redirect()->to("admin/categoriesIndex");
     }
@@ -206,6 +206,11 @@ class AdminController extends Controller
             return redirect()->back();
         }
         return redirect()->to("adminView/categories");
+    }
+
+    public function categoryDetail($id){
+        $categories = Brand::find($id);
+        return view('adminView.categories.detail',['categories'=>$categories]);
     }
 
     // Product function
@@ -278,7 +283,7 @@ class AdminController extends Controller
     public function productUpdate($id,Request $request){
         $product = Product::find($id);
         $request->validate([
-            "productName"=> "required|string".$id,
+            "productName"=> "required|string:products".$id,
             "productsDescription" => "string",
             "brandsId" =>"required|Integer",
             "categoriesId" =>"required|integer",
@@ -286,44 +291,35 @@ class AdminController extends Controller
             "quantity" =>"required|Integer",
             "isActive" =>"required|Integer"
         ]);
-        dd(1);
-        try {
-            $thumbnail = null;
-            $ext_allow = ["png","jpg","jpeg","gif","svg"];
-            if($request->hasFile("thumbnail")){
-                $file = $request->file("thumbnail");
-                $file_name = time()."_".$file->getClientOriginalName();
-                $ext = $file->getClientOriginalExtension();
-                if(in_array($ext,$ext_allow)){
-                    $file->move("upload/products/",$file_name);
-                    $thumbnail = "upload/products/".$file_name;
-                }      
-            }
 
-            $gallery = null;
-            $ext_allowg = ["png","jpg","jpeg","gif","svg"];
-            if($request->hasFile("gallery")){
-                $fileg = $request->file("gallery");
-                $file_gname = time()."_".$fileg->getClientOriginalName();
-                $extg = $fileg->getClientOriginalExtension();
-                if(in_array($extg,$ext_allowg)){
-                    $fileg->move("upload/products/",$file_gname);
-                    $gallery = "upload/products/".$file_gname;
-                }      
+        $products = Product::find($id);
+        $products->productName = $request->get('productName');
+        $products->productsDescription = $request->get('productsDescription');
+        try {
+            if ($request->hasFile('thumbnail')) {
+                $thumbnail = $request->file('thumbnail');
+                $name = time()."_".$thumbnail->getClientOriginalName();
+                $name = $name . "." . $thumbnail->getClientOriginalExtension();
+                $thumbnail->move("upload/products/",$name);
+
+                $products->thumbnail = "upload/products/".$name;
             }
-            $product->update([
-                "productName" => $request->get("productName"),
-                "productsDescription" => $request->get("productsDescription"),
-                'thumbnail' => $thumbnail,
-                'gallery' => $gallery,
-                "brandsId" => $request->get("brandsId"),
-                "categoriesId" => $request->get("categoriesId"),
-                "price" => $request->get("price"),
-                "quantity" => $request->get("quantity"),
-                "isActive" => $request->get("isActive")
-            ]);
-        } catch (Exception $e) {
-            return redirect()->back();
+            if ($request->hasFile('gallery')) {
+                $gallery = $request->file('gallery');
+                $name = time()."_".$gallery->getClientOriginalName();
+                $name = $name . "." . $gallery->getClientOriginalExtension();
+                $gallery->move("upload/products/",$name);
+
+                $products->gallery = "upload/products/".$name;
+            }
+        $products->brandsId = $request->get('brandsId');
+        $products->categoriesId = $request->get('categoriesId');
+        $products->price = $request->get('price');
+        $products->quantity = $request->get('quantity');
+        $products->isActive = $request->get('isActive');
+        $products->save();
+        } catch (\Exception $e) {
+            throw $e;
         }
         return redirect()->to("admin/productIndex");
     }
@@ -437,6 +433,13 @@ class AdminController extends Controller
             return redirect()->back();
         }
         return redirect()->to("admin/userIndex");
+    }
+
+    //order function
+    
+    public function orderIndex(){
+        $orders = Order::orderBy('created_at','desc')->get();
+        return view('adminView.order.index',['orders'=>$orders]);
     }
 
 }

@@ -8,6 +8,8 @@ Route::post('brand/store',"AdminController@brandStore");
 Route::get('brand/edit/{id}',"AdminController@brandEdit");
 Route::post('brand/update/{id}',"AdminController@brandUpdate");
 Route::get('brand/delete/{id}',"AdminController@brandDestroy");
+Route::get('brand/detail/{id}',"AdminController@brandDetail");
+
 //route category
 Route::get('categoriesIndex',"AdminController@categoriesIndex");
 Route::get('category/create',"AdminController@categoriesCreate");
@@ -15,6 +17,7 @@ Route::post('category/store',"AdminController@categoriesStore");
 Route::get('category/edit/{id}',"AdminController@categoryEdit");
 Route::post('category/update/{id}',"AdminController@categoryUpdate");
 Route::get('category/delete/{id}',"AdminController@categoryDestroy");
+Route::get('category/detail/{id}',"AdminController@categoryDetail");
 
 //route product
 Route::get('productIndex',"AdminController@productIndex");
@@ -31,3 +34,6 @@ Route::post('user/store',"AdminController@userStore");
 Route::get('user/edit/{id}',"AdminController@userEdit");
 Route::post('user/update/{id}',"AdminController@userUpdate");
 Route::get('user/delete/{id}',"AdminController@userDestroy");
+
+//route user
+Route::get('orderIndex',"AdminController@orderIndex");

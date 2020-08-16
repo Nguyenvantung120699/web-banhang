@@ -5,7 +5,7 @@
     <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-            <h4 class="card-title">Create brand</h4>
+            <h4 class="card-title">Edit brand</h4>
             <form class="forms-sample" action="{{url("admin/brand/update",['id'=>$brands->id])}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -15,9 +15,19 @@
                     <p style="color:red">{{$errors->first("brandsName")}}</p>
                     @endif
                 </div>
-                <div class="form-group">
-                <label for="exampleInputEmail1">Logo</label>
-                    <input type="file" name="logo" value="{{$brands->logo}}" class="form-control" id="exampleInputEmail1">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label>Logo</label>
+                        <input type="file" id="uploadImage" name="logo" value="{{$brands->logo}}" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="col-sm-3">
+                        <label>logo use</label><br/>
+                        <img style="width:70px;" src="{{asset($brands->logo)}}">
+                    </div>
+                    <div id="result" class="uploadPreview col-sm-3">
+                        <label>logo new</label>
+                        
+                    </div>
                 </div>
                 <div class="form-group">
                 <label for="exampleInputPassword1">History</label>
@@ -31,11 +41,11 @@
                     <div class="col-sm-6">
                         <select class="form-control" name="isActive" id="exampleFormControlSelect1">
                                @if($brands->isActive == 1)
-                               <option selected value="1">Active true</option>
-                                <option value="0">Active false</option>
+                               <option selected value="1">On</option>
+                                <option value="0">Off</option>
                                 @else
-                                <option selected value="0">Active false</option>
-                                <option value="1">Active true</option>
+                                <option selected value="0">Off</option>
+                                <option value="1">On</option>
                                 @endif
                         </select>
                     </div>

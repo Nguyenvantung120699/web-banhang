@@ -32,6 +32,7 @@
                         @forelse($cart as $p)
                             <tr>
                                 <td>
+                                <a href="{{url("detail-product/{$p->id}")}}">
                                     <div class="media">
                                         <div class="d-flex">
                                             <img style="width:100px" src="{{asset($p->thumbnail)}}" alt="">
@@ -40,6 +41,7 @@
                                             <p>{{$p->productName}}</p>
                                         </div>
                                     </div>
+                                </a>
                                 </td>
                                 <td>
                                     <h5>{{$p->getPrice()}} VND</h5>
@@ -52,7 +54,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h5>{{($p->cart_qty*$p->price)}}</h5>
+                                    <h5>{{number_format($p->cart_qty*$p->price,0,',','.')}} VND</h5>
                                 </td>
                             </tr>
                             @empty

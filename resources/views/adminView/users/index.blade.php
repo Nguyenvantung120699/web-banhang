@@ -5,7 +5,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">User Table</h4>
+                <h4 class="card-title">User Data</h4>
                 <a href="{{url("admin/user/create")}}"><button class="btn btn-success"> Create Admin User </button></a>
                 <table class="table">
                     <thead>

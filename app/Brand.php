@@ -10,8 +10,8 @@ class Brand extends Model
 
     protected $fillable = ['brandsName','logo','history','isActive'];
 
-    public function product(){
-        return $this->hasMany('App\Product');
+    public function Products(){
+        return $this->hasMany('App\Product','brandsId');
     }
     const ACTIVETRUE = 1;
     const ACTIVEFALSE = 0;

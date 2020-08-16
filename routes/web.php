@@ -27,6 +27,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get("/detail-product/{id}","HomeController@productDetail");
 
 Route::get("/danh-muc/{id}","HomeController@listingCategory");
+Route::get("/thuong-hieu/{id}","HomeController@listingBrand");
+
+Route::get("search",'HomeController@getSearch');
 
 Route::get("/open-cart","HomeController@openCart")->middleware("auth");
 Route::get("/shopping/{id}","HomeController@shopping")->middleware("auth");

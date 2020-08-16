@@ -19,7 +19,9 @@
 								 aria-expanded="false">Categories</a>
 								<ul class="dropdown-menu">
 								@foreach(\App\Category::all() as $c)
+									@if($c->isActive==1)
 									<li class="nav-item"><a class="nav-link" href="{{url("/danh-muc/{$c->id}")}}">{{$c->categoriesName}}</a></li>
+									@endif
 								@endforeach
 								</ul>
 							</li>
@@ -61,8 +63,8 @@
 		</div>
 		<div class="search_input" id="search_input_box">
 			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+				<form class="d-flex justify-content-between" method="get" action="{{asset('search')}}">
+					<input type="text" name="key" class="form-control" id="search_input" placeholder="Search Here">
 					<button type="submit" class="btn"></button>
 					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 				</form>

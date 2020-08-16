@@ -4,8 +4,8 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-        <h4 class="card-title">Create Product</h4>
-        <form class="form-sample" action="{{url("admin/product/store")}}" method="post" enctype="multipart/form-data">
+        <h4 class="card-title">Edit Product</h4>
+        <form class="form-sample" action="{{url("admin/product/update",['id'=>$products->id])}}" method="post" enctype="multipart/form-data">
         @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -34,17 +34,33 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Thumbnail</label>
-                        <div class="col-sm-9">
-                            <input type="file" name="thumbnail" value="{{$products->thumbnail}}" class="form-control" id="exampleInputEmail1">
+                        <div class="col-sm-6">
+                            <label>thumbnail</label>
+                            <input type="file" id="uploadImage" name="thumbnail" value="{{$products->thumbnail}}" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>thumbnail use</label><br/>
+                            <img style="width:70px;" src="{{asset($products->thumbnail)}}">
+                        </div>
+                        <div id="result" class="uploadPreview col-sm-3">
+                            <label>thumbnail new</label>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Gallery</label>
-                        <div class="col-sm-9">
-                            <input type="file" name="gallery" value="{{$products->gallery}}" class="form-control" id="exampleInputEmail1">
+                        <div class="col-sm-6">
+                            <label>gallery</label>
+                            <input type="file" id="uploadImage" name="gallery" value="{{$products->gallery}}" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>gallery use</label><br/>
+                            <img style="width:70px;" src="{{asset($products->gallery)}}">
+                        </div>
+                        <div id="result" class="uploadPreview col-sm-3">
+                            <label>gallery new</label>
+                            
                         </div>
                     </div>
                 </div>
@@ -118,10 +134,17 @@
                     <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Is Active</label>
                         <div class="col-sm-9">
+                            @if($products->isActive==1)
                             <select class="form-control" name="isActive" id="exampleFormControlSelect1">
-                                <option selected value="1">Active true</option>
-                                    <option value="0">Active false</option>
+                                <option selected value="1">On</option>
+                                    <option value="0">Off</option>
                             </select>
+                            @else
+                            <select class="form-control" name="isActive" id="exampleFormControlSelect1">
+                                <option selected value="0">Off</option>
+                                    <option value="1">On</option>
+                            </select>
+                            @endif
                         </div>
                     </div>
                 </div>

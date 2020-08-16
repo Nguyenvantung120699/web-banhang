@@ -4922,13 +4922,46 @@ input[type=submit].btn-block {
     background-color: #e9ecef;
     border-color: #dee2e6
 }
-
+.single-product .product-details h6 {
+    font-size: 16px;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.s_product_text p {
+    padding-top: 20px;
+    border-top: 1px dotted #d5d5d5;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
 .page-link:focus {
     z-index: 2;
     outline: 0;
     box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)
 }
-
+.single-product img {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 200px;
+}
+.list-product-category{
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.messager-search{
+    height: 250px;
+    text-align: center;
+    padding-top: 100px;
+    color: #b9bbbe;
+}
 .page-link:not(:disabled):not(.disabled) {
     cursor: pointer
 }

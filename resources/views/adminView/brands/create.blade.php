@@ -39,8 +39,8 @@
                     <label class="col-sm-6 col-form-label">Is Active</label>
                     <div class="col-sm-6">
                         <select class="form-control" name="isActive" id="exampleFormControlSelect1">
-                               <option selected value="1">Active true</option>
-                                <option value="0">Active false</option>
+                               <option selected value="1">On</option>
+                                <option value="0">Off</option>
                         </select>
                     </div>
                 </div>

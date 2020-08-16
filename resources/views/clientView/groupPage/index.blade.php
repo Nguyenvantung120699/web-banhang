@@ -181,7 +181,7 @@
 							<div class="single-deal">
 								<div class="overlay"></div>
 								<img class="img-fluid logo-brand w-100" src="{{asset($c->logo)}}" alt="">
-								<a href="{{asset("client/img/category/c1.jpg")}}" class="img-pop-up" target="_blank">
+								<a href="{{url("thuong-hieu/{$c->id}")}}">
 									<div class="deal-details">
 										<h6 class="deal-title">{{$c->brandsName}}</h6>
 									</div>
@@ -210,7 +210,8 @@
             <div class="lattest-product-area pb-40 category-list">
             <div class="row">
                 <!-- single product -->
-                @foreach($products as $p)
+				@foreach($products as $p)
+				<a href="{{url("detail-product/{$p->id}")}}">
                 <div class="item_product col-lg-3 col-md-6">
                     <div class="single-product">
                         <img style="height:200px;" class="img-fluid" src="{{$p->thumbnail}}" alt="">
@@ -225,7 +226,8 @@
                             </div>
                         </div>
                     </div>
-                </div>	
+				</div>
+				</a>
                 @endforeach	
             </div>
             </div>

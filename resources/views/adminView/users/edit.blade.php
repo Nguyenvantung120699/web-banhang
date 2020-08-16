@@ -4,7 +4,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-        <h4 class="card-title">Create User Admin</h4>
+        <h4 class="card-title">Edit User Admin</h4>
         <form class="form-sample" action="{{url("admin/user/update",['id'=>$user->id])}}" method="post">
         @csrf
             <div class="row">

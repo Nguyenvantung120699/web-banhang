@@ -53,24 +53,36 @@ class HomeController extends Controller
     public function productDetail($id){
         $product=Product::find($id);
         $brand = Brand::find($product->brandsId);
+        $rate=FeedbackProducts::where("productsId",$product->id)->get();
+        $ratenew=FeedbackProducts::where("productsId",$product->id)->paginate(3);
         $img =explode(",",$product->gallery);
         $category_product =Product::where("categoriesId",$product->category_id)->where('id',"!=",$product->id)->take(10)->get();
         $brand_product =Product::where("brandsId",$product->brand_id)->where('id',"!=",$product->id)->take(10)->get();
-        return view('clientView.groupPage.detailProducts',['product'=>$product,'category_product'=>$category_product,'brand_product'=>$brand_product,'brand'=>$brand,'img'=>$img]);
+        return view('clientView.groupPage.detailProducts',['product'=>$product,'category_product'=>$category_product,
+        'brand_product'=>$brand_product,'brand'=>$brand,'img'=>$img,'rate'=>$rate,'ratenew'=>$ratenew]);
     }
 
     public function listingCategory($id){
         $category = Category::find($id);
-        $product=$category->Products()->paginate(9);
+        $product=$category->Products()->paginate(6);
         $categories=Category::all();
         $brands=Brand::all();
-        return view("clientView.groupPage.listingCategory",['products'=>$product,'category'=>$category,'categories'=>$categories,'brands'=>$brands]);
+        return view("clientView.groupPage.listingCategory",['product'=>$product,'category'=>$category,'categories'=>$categories,'brands'=>$brands]);
+    }
+    public function listingBrand($id){
+        $brand = Brand::find($id);
+        $product=$brand->Products()->paginate(6);
+        $categories=Category::all();
+        $brands=Brand::all();
+        return view("clientView.groupPage.listingBrand",['product'=>$product,'brand'=>$brand,'categories'=>$categories,'brands'=>$brands]);
     }
 
-    public function openCart()
-    {
-        return view('clientView.groupPage.cart');
+    public function getSearch(Request $request){
+        $keys = $request->get("key");
+        $product = Product::where('productName','like','%'.$request->get("key").'%')->paginate(12);
+        return view("clientView.groupPage.search",['product'=>$product,'keys'=>$keys]);
     }
+
     public function shopping($id, Request $request){
         $product=Product::find($id);
         $cart =$request->session()->get("cart");
