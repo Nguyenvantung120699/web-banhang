@@ -16,13 +16,6 @@ Route::prefix("admin")->middleware(['auth',"check_admin"])->group(function (){
     include_once("admin.php");
 });
 
-
-Auth::routes();
-Route::get('/logout',function (){
-    \Illuminate\Support\Facades\Auth::logout();
-    return redirect()->to("/login");
- });
-
 Route::get('/', 'HomeController@index')->name('home');
 Route::get("/detail-product/{id}","HomeController@productDetail");
 
@@ -36,3 +29,10 @@ Route::get("/shopping/{id}","HomeController@shopping")->middleware("auth");
 Route::post("/shopping/{id}","HomeController@pshopping")->middleware("auth");
 Route::get("/cart","HomeController@cart")->middleware("auth");
 Route::get("/clear-cart","HomeController@clearCart")->middleware("auth");
+
+
+Auth::routes();
+Route::get('/logout',function (){
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect()->to("/login");
+ });
