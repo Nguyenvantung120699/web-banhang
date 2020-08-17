@@ -40,7 +40,7 @@
                                 @foreach($brands as $c)
 									@if($c->isActive==1)
 									<li class="main-nav-list">
-										<a href="{{url("danh-muc/{$c->id}")}}">
+										<a href="{{url("thuong-hieu/{$c->id}")}}">
 											<span class="lnr lnr-arrow-right"></span>{{$c->brandsName}}
 										</a>
 									</li>

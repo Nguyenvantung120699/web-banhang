@@ -30,9 +30,16 @@ Route::post("/shopping/{id}","HomeController@pshopping")->middleware("auth");
 Route::get("/cart","HomeController@cart")->middleware("auth");
 Route::get("/clear-cart","HomeController@clearCart")->middleware("auth");
 
+Route::get("/user-profile/{id}","HomeController@userprofileindex");
+Route::get('user-profile/create',"HomeController@userprofileCreate");
+Route::post('user-profile/store',"HomeController@userprofileStore");
+Route::post('user-profile/update/{id}',"HomeController@userprofileUpdate");
+
 
 Auth::routes();
 Route::get('/logout',function (){
     \Illuminate\Support\Facades\Auth::logout();
     return redirect()->to("/login");
  });
+
+ Route::post("postLogin","HomeController@postLogin");

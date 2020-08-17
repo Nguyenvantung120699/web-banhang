@@ -22,6 +22,7 @@ use App\Category;
 use App\Brand;
 use App\Product;
 use App\User;
+use App\UsersProfile;
 use App\FeedbackProducts;
 use App\Order;
 use App\OrderProducts;
@@ -33,10 +34,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -165,4 +166,108 @@ class HomeController extends Controller
         $request->session()->flush(); // xoa tat ca session - ke ca login
         return redirect()->to("/");
     }
+
+
+
+    public function userprofileindex($id)
+    {
+        $user = User::find($id);
+        $profile = $user->userProfile()->get();
+        return view('clientView.groupPage.userProfile.index',['user'=>$user,'profile'=>$profile]);
+    }
+
+    public function userprofileStore($id,Request $request)
+    {
+        $id = User::find($id);
+        $request->validate([
+            "firstName"=> "required|string",
+            "lastName" => "required|string",
+            "telephone" =>"string",
+            "birthday" =>"required|date",
+            "gender" =>"required|Integer",
+            "address" =>"required|string"
+        ]);
+        try {
+            $avatar = null;
+            $ext_allow = ["png","jpg","jpeg","gif","svg"];
+            if($request->hasFile("avatar")){
+                $file = $request->file("avatar");
+                $file_name = time()."_".$file->getClientOriginalName();
+                $ext = $file->getClientOriginalExtension();
+                if(in_array($ext,$ext_allow)){
+                    $file->move("upload/users/",$file_name);
+                    $avatar = "upload/users/".$file_name;
+                }      
+            }
+
+            UsersProfile::create([
+                "usersId" => $iduser,
+                "firstName" => $request->get("firstName"),
+                "lastName" => $request->get("lastName"),
+                'telephone' => $request->get("telephone"),
+                "birthday" => $request->get("birthday"),
+                "gender" => $request->get("gender"),
+                "address" => $request->get("address"),
+                'avatar' => $avatar,
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back();
+        }
+        return redirect()->route('user-profile', ['id' => $id]);
+    }
+
+    public function userprofileUpdate($id,Request $request){
+        $profile = UsersProfile::find($id);
+        $request->validate([
+            "firstName"=> "required|string",
+            "lastName" => "required|string",
+            "telephone" =>"string",
+            "birthday" =>"required|date",
+            "gender" =>"required|Integer",
+            "address" =>"required|string"
+        ]);
+
+        $profile = UsersProfile::find($id);
+        $profile->firstName = $request->get('firstName');
+        $profile->lastName = $request->get('lastName');
+        $profile->telephone = $request->get('telephone');
+        $profile->birthday = $request->get('birthday');
+        $profile->gender = $request->get('gender');
+        $profile->address = $request->get('address');
+        try {
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $name = time()."_".$avatar->getClientOriginalName();
+                $name = $name . "." . $avatar->getClientOriginalExtension();
+                $avatar->move("upload/users/",$name);
+
+                $profile->avatar = "upload/users/".$name;
+            }
+        $profile->save();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        return redirect()->back()->with('alert', 'Save Profile Successfully');   
+    }
+
+    public function postLogin(Request $request){
+        //        $request->validate([
+        //            "email" => 'required|email',
+        //            "password"=> "required|min:8"
+        //        ]);
+                $validator = Validator::make($request->all(),[
+                    "email" => 'required|email',
+                    "password"=> "required|min:8"
+                ]);
+        
+                if($validator->fails()){
+                    return response()->json(["status"=>false,"message"=>$validator->errors()->first()]);
+                }
+                $email = $request->get("email");
+                $pass = $request->get("password");
+                if(Auth::attempt(['email'=>$email,'password'=>$pass])){
+                    return response()->json(['status'=>true,'message'=>"Login successfully!"]);
+                }
+                return response()->json(['status'=>false,'message'=>"login failure"]);
+            }
 }

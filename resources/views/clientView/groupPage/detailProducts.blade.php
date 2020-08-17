@@ -70,7 +70,13 @@
 							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 ) result.value--;return false;" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
 						</div>
 						<div class="card_area d-flex align-items-center">
-							<button type="submit" class="primary-btn">Add to Cart</button>
+							@if(!Auth::check())
+								<a href="#" class="nav-link login btn btn-default" data-toggle="modal" data-target="#myModal">
+									<button type="submit" class="primary-btn">Add to Cart</button>
+								</a>
+							@else
+								<button type="submit" class="primary-btn">Add to Cart</button>
+							@endif
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                         </div>

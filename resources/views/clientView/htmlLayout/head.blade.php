@@ -27,4 +27,5 @@
 	<link rel="stylesheet" href="{{asset("client/css/ion.rangeSlider.skinFlat.css")}}" />
 	<link rel="stylesheet" href="{{asset("client/css/magnific-popup.css")}}">
 	<link rel="stylesheet" href="{{asset("client/css/main.css")}}">
+	<script src="{{asset("client/js/jquery3.js")}}"></script>
 </head>

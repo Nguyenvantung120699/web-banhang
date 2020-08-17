@@ -42,6 +42,7 @@
                             <td>
                                 <a href="{{url("admin/product/edit",['id'=>$c->id])}}"><label class="badge badge-info">Edit</label></a>
                                 <a href="{{url("admin/product/delete",['id'=>$c->id])}}"><label class="badge badge-warning">Delete</label></a>
+                                 <a href="{{url("admin/product/detail",['id'=>$c->id])}}"><label class="badge badge-success">Detail</label></a>
                             </td>
                         </tr>
                     @endforeach

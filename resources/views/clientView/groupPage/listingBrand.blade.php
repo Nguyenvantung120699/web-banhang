@@ -37,7 +37,7 @@
                             <ul class="main-categories">
                                 @foreach($brands as $c)
                                 <li class="main-nav-list">
-                                    <a href="{{url("danh-muc/{$c->id}")}}">
+                                    <a href="{{url("thuong-hieu/{$c->id}")}}">
                                         <span class="lnr lnr-arrow-right"></span>{{$c->brandsName}}
                                     </a>
                                 </li>

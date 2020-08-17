@@ -26,6 +26,7 @@ Route::post('product/store',"AdminController@productStore");
 Route::get('product/edit/{id}',"AdminController@productEdit");
 Route::post('product/update/{id}',"AdminController@productUpdate");
 Route::get('product/delete/{id}',"AdminController@productDestroy");
+Route::get('product/detail/{id}',"AdminController@productDetail");
 
 //route user
 Route::get('userIndex',"AdminController@userIndex");

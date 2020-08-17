@@ -37,7 +37,9 @@
 							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                             @if(!Auth::check())
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{url("/login")}}">Login</a>
+								<a href="#" class="nav-link login btn btn-default" data-toggle="modal" data-target="#myModal">
+									Login
+								</a>
                                 /<a class="nav-link" href="{{url("/register")}}">Register</a>
                             </li>
                             @else
@@ -45,7 +47,12 @@
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                     aria-expanded="false">Hello! {{Auth::user()->name}}</a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="{{url("/admin/index")}}">Admin Manager</a></li>
+										@if(Auth::user()->roles==1)
+										<li class="nav-item"><a class="nav-link" href="{{url("/admin/index")}}">Admin Manager</a></li>
+										<li class="nav-item"><a class="nav-link" href="{{url("/user-profile",['id'=>Auth::user()->id])}}">User Profile</a></li>
+										@else
+										<li class="nav-item"><a class="nav-link" href="{{url("/user-profile",['id'=>Auth::user()->id])}}">User Profile</a></li>
+										@endif
                                         <li class="nav-item"><a class="nav-link" href="{{url("/logout")}}">Logout</a></li>
                                     </ul>
                                 </li>

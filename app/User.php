@@ -19,6 +19,10 @@ class User extends Authenticatable
         'name', 'email','password','roles',
     ];
 
+    public function userProfile(){
+        return $this->hasOne("App\UsersProfile","usersId",);
+    }
+
     const ADMIN = 1;
     const USER = 0;
     /**

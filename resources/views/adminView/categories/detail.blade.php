@@ -11,7 +11,7 @@
                         <li class="list-group-item"><b>Id :</b> {{$categories->id}}</li>
                         <li class="list-group-item"><b>Name :</b> {{$categories->brandsName}}</li>
                         <li class="list-group-item"><b>Logo :</b><img style="width:100px;" src="{{asset($categories->logo)}}" alt=""></li>
-                        <li class="list-group-item"><b>History :</b> {{$categories->history}}</li>
+                        <li class="list-group-item"><b>Description :</b> {{$categories->description}}</li>
                         <li class="list-group-item"><b>Is Active :</b> @if($categories->isActive==1)Online @else Offline @endif</li>
                         <li class="list-group-item"><b>Create Date :</b> {{$categories->created_at}}</li>
                     </ul>

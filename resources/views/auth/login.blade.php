@@ -1,59 +1,71 @@
-@extends('auth.layoutAuth')
+@extends('clientView.layoutClient')
 
-@section("main_content")
-<div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth">
-          <div class="row flex-grow">
-            <div class="col-lg-4 mx-auto">
-              <div class="auth-form-light text-left p-5">
-                <div class="brand-logo">
-                  <img src="{{asset("admin/assets/images/logo.svg")}}">
-                </div>
-                <h4>{{ __('Login') }}</h4>
-                <form class="pt-3" method="POST" action="{{ route('login') }}">
-                @csrf
-                  <div class="form-group">
-                    <input type="email" name="email"  class="form-control form-control-lg  @error('email') is-invalid @enderror" value="{{ old('email') }}" id="exampleInputEmail1" placeholder="{{ __('E-Mail Address') }}">
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                  </div>
-                  <div class="form-group">
-                    <input type="password" name="password"  class="form-control form-control-lg @error('password') is-invalid @enderror" id="exampleInputPassword1" placeholder="{{ __('Password') }}">
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                  </div>
-                  <div class="mt-3">
-                    <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" >SIGN IN</button>
-                  </div>
-                  <div class="my-2 d-flex justify-content-between align-items-center">
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> Keep me signed in </label>
-                    </div>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="auth-link text-black">Forgot password?</a>
-                    @endif
-                  </div>
-                  <div class="mb-2">
-                    <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                      <i class="mdi mdi-facebook mr-2"></i>Connect using facebook </button>
-                  </div>
-                  <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a>
-                  </div>
-                </form>
+@section('content')
+
+<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Login/Register</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{{url("/")}}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Login/Register</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+
+  <section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="{{asset("client/img/login.jpg")}}" alt="">
+						<div class="hover">
+							<h4>New to our website?</h4>
+							<p>It is not happy if you have not registered an account in our system</p>
+							<a class="primary-btn" href="{{ route('register') }}">Create an Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3>Login</h3>
+						<form class="row login_form" action="{{ route('login') }}" method="post" id="contactForm">
+            @csrf
+							<div class="col-md-12 form-group">
+								<input type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
-    </div>
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+							<div class="col-md-12 form-group">
+								<div class="creat_account">
+									<input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+									<label for="f-option2">Keep me logged in</label>
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<button type="submit" class="primary-btn">Log In</button>
+                @if (Route::has('password.request'))
+								<a href="{{ route('password.request') }}">Forgot Password?</a>
+                @endif
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 @endsection

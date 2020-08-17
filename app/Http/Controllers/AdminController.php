@@ -209,7 +209,7 @@ class AdminController extends Controller
     }
 
     public function categoryDetail($id){
-        $categories = Brand::find($id);
+        $categories = Category::find($id);
         return view('adminView.categories.detail',['categories'=>$categories]);
     }
 
@@ -336,6 +336,10 @@ class AdminController extends Controller
         return redirect()->to("admin/productIndex");
     }
 
+    public function productDetail($id){
+        $product = Product::find($id);
+        return view('adminView.products.detail',['product'=>$product]);
+    }
 
     //user function
     public function userIndex(){
